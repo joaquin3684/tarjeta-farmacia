@@ -1,0 +1,27 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: joaquin
+ * Date: 29/11/18
+ * Time: 14:36
+ */
+
+namespace App\services;
+
+
+use App\Solicitud;
+
+class SolicitudService
+{
+    public function aceptar($elem)
+    {
+        $solicitud = Solicitud::find($elem['id']);
+        $solicitud->aceptar();
+    }
+
+    public function rechazar($elem)
+    {
+        $solicitud = Solicitud::find($elem['id']);
+        $solicitud->rechazar($elem['observacion']);
+    }
+}
