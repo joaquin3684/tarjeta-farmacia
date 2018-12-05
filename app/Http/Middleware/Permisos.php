@@ -2,14 +2,13 @@
 
 namespace App\Http\Middleware;
 
-use App\Exceptions\NoTienePermisoARutaException;
 use App\Pantalla;
 use App\Ruta;
 use App\User;
 use Closure;
 use Mockery\Exception;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
-use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\JWTAuth;
 
 class Permisos
 {

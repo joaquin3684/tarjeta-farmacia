@@ -19,6 +19,8 @@ class CreateRedsTable extends Migration
         Schema::create('redes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
+            $table->double('credito');
+            $table->softDeletes();
             $table->timestamps();
         });
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');

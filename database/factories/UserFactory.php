@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\Hash;
 $factory->define(App\User::class, function (Faker\Generator $faker) {
 
     return [
-        'name' => 'prueba',
-        'email' => 'prueba@prueba',
-        'password' => Hash::make('prueba'),
+        'name' => 'martin',
+        'email' => 'martin@prueba',
+        'password' => 'martin',
         'id_perfil' => 1
 
 

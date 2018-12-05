@@ -12,4 +12,5 @@ namespace App;
 class ConfigMutual
 {
     const INTERES = 10;
+    const INTERES_PUNITORIO = 5;
 }

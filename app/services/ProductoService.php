@@ -28,12 +28,12 @@ class ProductoService
 
     public function find($id)
     {
-        return Producto::find($id);
+        return Producto::with('red')->find($id);
     }
 
     public function all()
     {
-        return Producto::all();
+        return Producto::with('red')->get();
     }
 
     public function delete($id)

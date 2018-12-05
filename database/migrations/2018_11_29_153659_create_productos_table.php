@@ -20,6 +20,8 @@ class CreateProductosTable extends Migration
             $table->increments('id');
             $table->string('nombre');
             $table->double('precio');
+            $table->integer('id_red')->unsigned();
+            $table->foreign('id_red')->references('id')->on('redes');
             $table->softDeletes();
             $table->timestamps();
         });

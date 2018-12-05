@@ -24,6 +24,13 @@ class Farmacia extends Model
 
     public function creditoRed()
     {
-        return $this->redes->filter(function($red){return $red->credito > 0;})->map(function($red){return $red->credito;})->sortByDesc()->first();
+        return $this->redes->filter(function($red){return $red->credito > 0;})->map(function($red){return $red->credito;})->sortByDesc(function($cred){ return $cred;})->first();
+    }
+
+    public function reducirMontoRed($capital)
+    {
+        $red = $this->redes->filter(function($red){return $red->credito > 0;})->sortByDesc(function($red){ return $red->credito;})->first();
+        $red->credito -= $capital;
+        $red->save();
     }
 }

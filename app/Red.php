@@ -10,5 +10,5 @@ class Red extends Model
     use SoftDeletes;
 
     protected $table = 'redes';
-    protected $fillable = ['nombre'];
+    protected $fillable = ['nombre', 'credito'];
 }

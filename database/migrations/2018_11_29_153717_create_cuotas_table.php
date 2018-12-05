@@ -21,10 +21,14 @@ class CreateCuotasTable extends Migration
             $table->integer('id_venta')->unsigned();
             $table->foreign('id_venta')->references('id')->on('ventas');
             $table->double('capital');
+            $table->double('pagado')->default(0);
+            $table->double('total');
             $table->double('interes');
-            $table->double('interes_punitorio');
+            $table->double('interes_punitorio')->default(0);
             $table->date('fecha_vto');
             $table->date('fecha_inicio');
+            $table->date('fecha_calculo');
+            $table->date('actualizacion_punitorios')->nullable();
             $table->integer('nro_cuota');
             $table->timestamps();
         });

@@ -26,7 +26,7 @@ class CreateSolicitudsTable extends Migration
             $table->integer('id_afiliado')->unsigned();
             $table->foreign('id_afiliado')->references('id')->on('farmacias');
             $table->smallInteger('estado');
-            $table->string('observacion');
+            $table->string('observacion')->nullable();
             $table->timestamps();
         });
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');

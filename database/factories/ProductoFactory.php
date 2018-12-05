@@ -9,6 +9,7 @@ $factory->define(App\Producto::class, function (Faker\Generator $faker) {
 
     return [
         'nombre' => $faker->name,
-        'precio' => $faker->randomNumber()
+        'precio' => 1000,
+        'id_red' => 1
     ];
 });

@@ -9,12 +9,15 @@
 namespace App\services;
 
 
+use App\Perfil;
 use App\User;
+use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
     public function crear($elem)
     {
+        $elem['password'] =  Hash::make($elem['password']);
         $user = User::create($elem);
         return $user->id;
     }
@@ -28,16 +31,29 @@ class UserService
 
     public function find($id)
     {
-        return User::find($id);
+        return User::with('perfil')->find($id);
     }
 
     public function all()
     {
-        return User::all();
+        return User::with('perfil')->get();
     }
 
     public function delete($id)
     {
         User::destroy($id);
+    }
+
+    public function cambiarPassword($elem)
+    {
+        $user = User::find($elem['id']);
+        $user->password = Hash::make($elem['password']);
+        $user->save();
+
+    }
+
+    public function perfiles()
+    {
+        return Perfil::all();
     }
 }

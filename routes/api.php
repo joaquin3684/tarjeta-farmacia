@@ -53,4 +53,27 @@ Route::group(['middleware' => ['permisos', 'jwt.auth']], function() {
     Route::put('red/editar/{id}', 'RedController@update');
     Route::get('red/find/{id}', 'RedController@find');
     Route::post('red/delete', 'RedController@delete');
+
+    // USUARIO
+
+    Route::post('user/crear', 'UserController@store');
+    Route::get('user/all', 'UserController@all');
+    Route::put('user/editar/{id}', 'UserController@update');
+    Route::get('user/find/{id}', 'UserController@find');
+    Route::get('user/perfiles', 'UserController@perfiles');
+    Route::post('user/delete', 'UserController@delete');
+    Route::post('user/cambiarPassword', 'UserController@cambiarPassword');
+
+    // SOLICITUD
+
+    Route::get('solicitud/all', 'SolicitudController@all');
+    Route::post('solicitud/rechazar', 'SolicitudController@rechazar');
+    Route::post('solicitud/aceptar', 'SolicitudController@aceptar');
+
+    // COBRO
+
+    Route::post('cobro/cobrar', 'CobroController@cobrar');
+    Route::get('cobro/listadoDeCobros', 'CobroController@listadoDeCobros');
+
+
 });

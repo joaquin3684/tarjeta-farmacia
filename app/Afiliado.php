@@ -15,12 +15,17 @@ class Afiliado extends Model
 
     public function ventas()
     {
-        return $this->hasMany('App\Ventas', 'id_afiliado', 'id');
+        return $this->hasMany('App\Venta', 'id_afiliado', 'id');
     }
 
     public function user()
     {
         return $this->belongsTo('App\User', 'id_usuario', 'id');
+    }
+
+    public function cuotasSociales()
+    {
+        return $this->hasMany('App\CuotaSocial', 'id_afiliado', 'id');
     }
 
     public function comprar($productos, $nroCuotas, $farmacia)
@@ -29,8 +34,8 @@ class Afiliado extends Model
             return 0;
         else
         {
-            $monto = $productos->sum(function($prod){ return $prod->precio;}) * ConfigMutual::INTERES / 100 + $productos->sum(function($prod){ return $prod->precio;});
-            $solicitud = Solicitud::create(['fecha' => Carbon::today()->toDateTimeString(), 'monto' => $monto, 'nro_cuotas' => $nroCuotas, 'id_afiliado' => $this->id, 'id_farmacia' => $farmacia->id, 'estado' => EstadoSolicitud::PENDIENTE]);
+            $monto = $productos->sum->precio;
+            $solicitud = Solicitud::create(['fecha' => Carbon::now()->toDateTimeString(), 'monto' => $monto, 'nro_cuotas' => $nroCuotas, 'id_afiliado' => $this->id, 'id_farmacia' => $farmacia->id, 'estado' => EstadoSolicitud::PENDIENTE]);
             $solicitud->productos()->attach($productos->map(function($prod){return $prod->id;})->values());
         }
     }
@@ -39,18 +44,45 @@ class Afiliado extends Model
     {
         $cantidadProductos = $productos->count() > 2;
         $superaLimiteCredito = $this->totalAdeudadoSinInteres() + $productos->sum(function($prod){return $prod->precio;}) > $this->limite_credito;
-        $creditoLimiteRed = $farmacia->creditoRed() < $this->productos->sum(function($prod){ return $prod->precio;});
+        $creditoLimiteRed = $farmacia->creditoRed() < $productos->sum(function($prod){ return $prod->precio;});
         return $cantidadProductos || $superaLimiteCredito || $creditoLimiteRed;
     }
 
     public function totalAdeudadoSinInteres()
     {
-        return $this->ventas->sum(function($venta){ return $venta->totalAdeudadoSinInteres();});
+        return $this->ventas->sum(function(Venta $venta){ return $venta->totalAdeudadoSinInteres();});
     }
 
     public function totalAdeudado()
     {
-        return $this->ventas->sum(function($venta){return $venta->totalAdeudado();});
+        return $this->ventas->sum(function(Venta $venta){return $venta->totalAdeudado();});
+    }
+
+    public function pagar(&$monto)
+    {
+        $this->cuotasSociales->each(function($cuota) use (&$monto){
+            $monto = $cuota->pagar($monto);
+        });
+        $cuotas = collect();
+        $this->ventas->each(function ($venta) use ($cuotas){
+            $cuotas->push($venta->cuotas);
+        });
+
+        $cuotas = $cuotas->flatten()->sortBy->id->sortByDesc->mora();
+
+        $cuotas->each(function(Cuota $cuota) use (&$monto){
+            $monto = $cuota->pagar($monto);
+            if($monto == 0)
+                return false;
+        });
+
+    }
+
+    public function actualizarPunitoriosLocal()
+    {
+        $ventas = $this->ventas->map->actualizarPunitoriosLocal();
+        $this->ventas = $ventas;
+        return $this;
     }
 
 }

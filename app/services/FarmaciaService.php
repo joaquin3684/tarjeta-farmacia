@@ -11,6 +11,7 @@ namespace App\services;
 
 use App\Farmacia;
 use App\Perfiles;
+use Illuminate\Support\Facades\Hash;
 
 class FarmaciaService
 {

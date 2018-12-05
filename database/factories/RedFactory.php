@@ -8,6 +8,7 @@
 $factory->define(App\Red::class, function (Faker\Generator $faker) {
 
     return [
-        'nombre' => $faker->firstName
+        'nombre' => $faker->firstName,
+        'credito' => 10000
     ];
 });

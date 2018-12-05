@@ -16,6 +16,7 @@ class AfiliadoController extends Controller
         $this->service = $service;
     }
 
+
     public function store(Request $request)
     {
         return Db::transaction(function() use ($request){

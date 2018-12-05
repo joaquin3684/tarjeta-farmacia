@@ -15,7 +15,7 @@ class SolicitudService
 {
     public function aceptar($elem)
     {
-        $solicitud = Solicitud::find($elem['id']);
+        $solicitud = Solicitud::with('farmacia', 'productos')->find($elem['id']);
         $solicitud->aceptar();
     }
 
@@ -23,5 +23,10 @@ class SolicitudService
     {
         $solicitud = Solicitud::find($elem['id']);
         $solicitud->rechazar($elem['observacion']);
+    }
+
+    public function all()
+    {
+        return Solicitud::with('farmacia', 'productos')->get();
     }
 }
