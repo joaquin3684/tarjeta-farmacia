@@ -21,15 +21,13 @@ class Permisos
      */
     public function handle($request, Closure $next)
     {
-        $jwt = new JWTAuth();
-
-        $token = $jwt->getToken();
-        $permisos = $jwt->decode($token)['permisos'];
+        $userId = auth()->user()->id;
+        $user = User::with('perfil.pantallas.rutas')->find($userId);
+        $permisos = $user->perfil->pantallas->map(function($pantalla){ return $pantalla->nombre;});
         $fullPath = $request->getPathInfo();
         $path = explode("/", $fullPath);
         $pantalla = $path[1];
-        $userId = $jwt->decode($token)['user_id'];
-        $request->request->add(['userId' => $userId]);
+        $request->request->add(['userId' => $user->id]);
 
         foreach($permisos as $permiso)
         {
@@ -38,7 +36,6 @@ class Permisos
                 return $next($request);
             }
         }
-        $user = User::with('perfil.pantallas.rutas')->find($userId);
         $userRoute = $user->perfil->pantallas->first(function($pantalla) use ($fullPath){
             return $pantalla->rutas->first(function($ruta) use ($fullPath){
                 return $ruta->ruta == $fullPath;

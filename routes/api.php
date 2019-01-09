@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 */
 
 Route::post('login', 'LoginController@login');
-
+Route::get('prueba', function(){ return 1;});
 
 Route::group(['middleware' => ['permisos', 'jwt.auth']], function() {
 
