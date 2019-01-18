@@ -54,6 +54,14 @@ Route::group(['middleware' => ['permisos', 'jwt.auth']], function() {
     Route::get('red/find/{id}', 'RedController@find');
     Route::post('red/delete', 'RedController@delete');
 
+    // OBRA SOCIAL
+
+    Route::post('obraSocial/crear', 'ObraSocialController@store');
+    Route::get('obraSocial/all', 'ObraSocialController@all');
+    Route::put('obraSocial/editar/{id}', 'ObraSocialController@update');
+    Route::get('obraSocial/find/{id}', 'ObraSocialController@find');
+    Route::post('obraSocial/delete', 'ObraSocialController@delete');
+
     // USUARIO
 
     Route::post('user/crear', 'UserController@store');

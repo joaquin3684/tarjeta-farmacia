@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class AfiliadoSeeder extends Seeder
+class ObraSocialSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,8 +13,9 @@ class AfiliadoSeeder extends Seeder
     public function run()
     {
         Db::transaction(function() {
-            $this->call(ObraSocialSeeder::class);
-            factory(\App\Afiliado::class, 2)->create();
+
+            factory(\App\ObraSocial::class)->create();
+
 
         });
     }

@@ -21,6 +21,7 @@ class AfiliadoServiceTest extends TestCase
         $this->service = new AfiliadoService();
         $this->artisan('migrate', ['--database' => 'mysql_testing']);
         $this->artisan('db:seed', ['--class' => 'SeguridadSeeder', '--database' => 'mysql_testing']);
+        $this->artisan('db:seed', ['--class' => 'ObraSocialSeeder', '--database' => 'mysql_testing']);
 
     }
 

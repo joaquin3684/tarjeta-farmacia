@@ -25,6 +25,7 @@ class CompraDeAfiliadoTest extends TestCase
         $this->artisan('db:seed', ['--class' => 'SeguridadSeeder', '--database' => 'mysql_testing']);
         $this->artisan('db:seed', ['--class' => 'FarmaciaSeeder', '--database' => 'mysql_testing']);
         $this->artisan('db:seed', ['--class' => 'ProductoSeeder', '--database' => 'mysql_testing']);
+        $this->artisan('db:seed', ['--class' => 'ObraSocialSeeder', '--database' => 'mysql_testing']);
     }
 
     public function testCompraConMasDeDosProductos()

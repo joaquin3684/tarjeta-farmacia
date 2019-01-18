@@ -44,7 +44,7 @@ class AfiliadoService
 
     public function find($id)
     {
-        $afiliado = Afiliado::with('ventas.cuotas.movimientos')->find($id);
+        $afiliado = Afiliado::with('ventas.cuotas.movimientos', 'obraSocial')->find($id);
         $monto = $afiliado->totalAdeudadoSinInteres();
         $afiliado->totalAdeudadoSinInteres = $monto;
         return $afiliado;
@@ -52,7 +52,7 @@ class AfiliadoService
 
     public function all()
     {
-        return Afiliado::all();
+        return Afiliado::with('obraSocial')->get();
     }
 
     public function delete($id)

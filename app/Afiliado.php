@@ -11,7 +11,7 @@ class Afiliado extends Model
     use SoftDeletes;
 
     protected $table = 'afiliados';
-    protected $fillable = ['nombre', 'apellido', 'limite_credito', 'dni', 'email', 'id_usuario'];
+    protected $fillable = ['nombre', 'apellido', 'limite_credito', 'dni', 'email', 'id_usuario', 'domicilio', 'nro', 'piso', 'dpto', 'localidad', 'provincia', 'codigo_postal', 'cuil', 'id_obra_social'];
 
     public function ventas()
     {
@@ -26,6 +26,11 @@ class Afiliado extends Model
     public function cuotasSociales()
     {
         return $this->hasMany('App\CuotaSocial', 'id_afiliado', 'id');
+    }
+
+    public function obraSocial()
+    {
+        return $this->belongsTo('App\ObraSocial', 'id_obra_social', 'id');
     }
 
     public function comprar($productos, $nroCuotas, $farmacia)
